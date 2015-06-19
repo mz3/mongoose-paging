@@ -13,6 +13,11 @@ MySchema.plugin(require('mongoose-paging'));
 
 // usage
 
+MyModel.findPaged(query, fields, options, iterator, callback);
+
+
+// example
+
 MyModel.findPaged(
   // mongoose query object, leave blank for all
   {source: 'email'},
@@ -20,7 +25,7 @@ MyModel.findPaged(
   ['subject', 'message'],
   // number of results per page
   {step: 100},
-  // function to call on each set of results
+  // iterator to call on each set of results
   function(results) {
     console.log(results);
     // this is called repeatedly while until there are no more results
