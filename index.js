@@ -1,6 +1,4 @@
-/*
-
-// in schema
+/* in schema
 mySchema.plugin(require('mongoose-paging'));
 
 // usage
@@ -11,14 +9,59 @@ People.findPaged({name: "Michael"}, ["name", "age"], {step: 100}, function(peopl
 
 }, function(err) {
   // 
-});
+}); */
 
-Model.find(query, fields, options, callback)
-*/
+function promiseWhile(condition, action) {
+  var resolver = Promise.defer();
 
-function findPaged(query, fields, options, callback) {
-  var Model = this;
-  Model.find(query, fields, options, callback);
+  var loop = function() {
+    if (!condition()) return resolver.resolve();
+    return Promise.resolve(action()).then(loop).catch(resolver.reject);
+  };
+
+  process.nextTick(loop);
+
+  return resolver.promise;
+}
+
+function findPaged(query, fields, options, fn, cb) {
+  var Model  = this,
+    step     = options.step,
+    cursor   = null,
+    length   = null,
+    done     = false,
+    results  = [];
+
+  /*Model.find(query, fields, options, function(err, results) {
+    fn(results);
+  });*/
+
+  promiseWhile(function() {
+    //condition
+    //     ( first run     || no more results );
+    return ( length===null || length > 0      );
+
+  }, function(results) {
+    // Action to run, should return a promise
+    return new Promise(function(resolve, reject) {
+        
+        query['_id'] = { $gt: cursor };
+
+        Model.find(query, fields, options, function(err, items) {
+          if(err) {
+            reject(err);
+          } else {
+            length  = results.length;
+            results = results.concat(items);
+            cursor  = results[length -1]._id;
+            resolve();
+          }
+        });
+      });
+  }).then(function() {
+    cb(null, results);
+  }).catch(cb);
+
 }
 
 module.exports = function(schema) {
