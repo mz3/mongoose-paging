@@ -2,8 +2,6 @@
 
 Mongoose plugin that allows you to loop through a query by a specified number of documents
 
-Usage:
-
 ```javascript
 
 // myModel.js
