@@ -40,9 +40,7 @@ function findPaged(query, fields, options, fn, cb) {
           }
         });
       });
-  }).then(function() {
-    cb(null, results);
-  }).catch(cb);
+  }).then(cb).catch(cb);
 
 }
 
