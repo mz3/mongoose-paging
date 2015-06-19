@@ -1,16 +1,3 @@
-/* in schema
-mySchema.plugin(require('mongoose-paging'));
-
-// usage
-People.findPaged({name: "Michael"}, ["name", "age"], {step: 100}, function(people) {
-
-  // executed once per page (of 100 people)
-  people.length; // -> 100
-
-}, function(err) {
-  // 
-}); */
-
 function promiseWhile(condition, action) {
   var resolver = Promise.defer();
 
@@ -29,32 +16,27 @@ function findPaged(query, fields, options, fn, cb) {
     step     = options.step,
     cursor   = null,
     length   = null,
-    done     = false,
-    results  = [];
-
-  /*Model.find(query, fields, options, function(err, results) {
-    fn(results);
-  });*/
+    done     = false;
 
   promiseWhile(function() {
-    //condition
-    //     ( first run     || no more results );
-    return ( length===null || length > 0      );
+    return ( length===null || length > 0 );
 
-  }, function(results) {
-    // Action to run, should return a promise
+  }, function() {
     return new Promise(function(resolve, reject) {
         
-        query['_id'] = { $gt: cursor };
+        if(cursor) query['_id'] = { $gt: cursor };
 
-        Model.find(query, fields, options, function(err, items) {
+        Model.find(query, fields, options).limit(step).exec(function(err, items) {
           if(err) {
             reject(err);
           } else {
-            length  = results.length;
-            results = results.concat(items);
-            cursor  = results[length -1]._id;
-            resolve();
+            length  = items.length;
+            if(length > 0) {
+              cursor  = items[length - 1]._id;
+              fn(items, resolve);
+            } else {
+              resolve();
+            }
           }
         });
       });
