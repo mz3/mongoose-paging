@@ -1,0 +1,24 @@
+{
+  "name": "mongoose-paging",
+  "version": "1.0.0",
+  "description": "Fast paging plugin for mongoose",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mz3/mongoose-paging.git"
+  },
+  "keywords": [
+    "mongoose",
+    "page",
+    "paging"
+  ],
+  "author": "Michael Zandstra <m+github@emzy.cc>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mz3/mongoose-paging/issues"
+  },
+  "homepage": "https://github.com/mz3/mongoose-paging"
+}
