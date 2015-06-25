@@ -24,7 +24,7 @@ function findPaged(query, fields, options, iterator, cb) {
         
         if(cursor) query['_id'] = { $gt: cursor };
 
-        Model.find(query, fields, options).limit(step).exec(function(err, items) {
+        Model.find(query, fields, options).sort({_id: 1}).limit(step).exec(function(err, items) {
           if(err) {
             reject(err);
           } else {
