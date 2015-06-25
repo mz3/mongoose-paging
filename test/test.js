@@ -14,14 +14,15 @@ describe("mongoose-paging", function() {
 
   before(function(done) {
     var people = [];
-    for (var i = 1; i < toCreate; i++) { people.push({name: "Person" + String(i)}); };
+    for (var i = 1; i <= toCreate; i++) { people.push({name: "Person" + String(i)}); };
     Person.create(people, done);
   });
 
   after(function(done) {
-    mongoose.connection.db.dropCollection('people', function(err, result) {
-      done();
-    });
+    done();
+    //mongoose.connection.db.dropCollection('people', function(err, result) {
+    //  done();
+    //});
   });
 
   it("summing page totals should equal collection length", function(done) {
