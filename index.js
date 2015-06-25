@@ -45,26 +45,3 @@ function findPaged(query, fields, options, iterator, cb) {
 module.exports = function(schema) {
   schema.statics.findPaged = findPaged;
 };
-
-/*
-Promise.defer
-
-var deferred = Promise.defer();
-doSomething(function cb(good) {
-    if (good)
-        deferred.resolve();
-    else
-        deferred.reject();
-});
-return deferred.promise;
-new Promise
-
-return new Promise(function(resolve, reject) {
-    doSomething(function cb(good) {
-        if (good)
-            resolve();
-        else
-            reject();
-    });
-});
-*/
