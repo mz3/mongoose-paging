@@ -1,6 +1,6 @@
 {
   "name": "mongoose-paging",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Fast paging plugin for mongoose",
   "main": "index.js",
   "scripts": {
