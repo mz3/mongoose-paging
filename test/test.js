@@ -13,21 +13,21 @@ describe("mongoose-paging", function() {
   this.timeout(10000);
 
   before(function(done) {
-    var persons = [];
-    for (var i = 1; i < toCreate; i++) { persons.push({name: "Person" + String(i)}); };
-    Person.create(persons, done);
+    var people = [];
+    for (var i = 1; i < toCreate; i++) { people.push({name: "Person" + String(i)}); };
+    Person.create(people, done);
   });
 
   after(function(done) {
-    mongoose.connection.db.dropCollection('persons', function(err, result) {
+    mongoose.connection.db.dropCollection('people', function(err, result) {
       done();
     });
   });
 
   it("summing page totals should equal collection length", function(done) {
     total = 0;
-    Person.findPaged({}, null, {step: 10}, function(persons, next) {
-      total += persons.length;
+    Person.findPaged({}, null, {step: 10}, function(people, next) {
+      total += people.length;
       setTimeout(next, 10);
     }, function(err) {
       if(err) console.error(err);
