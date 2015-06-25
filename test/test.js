@@ -7,10 +7,11 @@ var Person    = require("./model.js");
 
 mongoose.connect("mongodb://localhost/mongoose-paging-test", {});
 
-var toCreate = 100;
+var toCreate   = 543;
+var pageLength = 10;
 
 describe("mongoose-paging", function() {
-  this.timeout(10000);
+  this.timeout(toCreate * 10);
 
   before(function(done) {
     var people = [];
@@ -25,16 +26,39 @@ describe("mongoose-paging", function() {
   });
 
   it("summing page totals should equal collection length", function(done) {
-    total = 0;
-    Person.findPaged({}, null, {step: 10}, function(people, next) {
+    var total = 0;
+    Person.findPaged({}, null, {step: pageLength}, function(people, next) {
+
+      // there shouldn't be more results per page than the specified step
+      should(people.length <= pageLength).be.true;
+
+      // add to total
       total += people.length;
-      console.log(String(total), "people so far");
+
+      // simulate something async before continuing
       setTimeout(next, 50);
+
     }, function(err) {
-      if(err) console.error(err);
+      should.not.exist(err);
       total.should.equal(toCreate);
-      setTimeout(done, 1000);
-      //done();
+      done();
+    });
+  });
+
+  it("shouldn't run the callback more than one time", function(done) {
+    var callbackHasBeenRun = false;
+    Person.findPaged({}, null, {step: pageLength}, function(people, next) {
+
+      // simulate something async before continuing
+      setTimeout(next, 50);
+
+    }, function(err) {
+      should.not.exist(err);
+      should(callbackHasBeenRun).be.false;
+      callbackHasBeenRun = true;
+      process.nextTick(function() {
+        setTimeout(done, 1000);
+      });
     });
   });
 
