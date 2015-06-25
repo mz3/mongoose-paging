@@ -4,7 +4,7 @@
   "description": "Fast paging plugin for mongoose",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha --recursive"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/mz3/mongoose-paging/issues"
   },
-  "homepage": "https://github.com/mz3/mongoose-paging"
+  "homepage": "https://github.com/mz3/mongoose-paging",
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "mongoose": "^4.0.6",
+    "should": "^7.0.1"
+  }
 }
