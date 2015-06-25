@@ -31,6 +31,8 @@ describe("mongoose-paging", function() {
       setTimeout(next, 10);
     }, function(err) {
       if(err) console.error(err);
+      console.log("finished paging");
+      total.should.equal(toCreate);
       setTimeout(done, 1000);
       //done();
     });
