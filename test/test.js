@@ -19,7 +19,6 @@ describe("mongoose-paging", function() {
   });
 
   after(function(done) {
-    done();
     mongoose.connection.db.dropCollection('people', function(err, result) {
       done();
     });
@@ -29,10 +28,10 @@ describe("mongoose-paging", function() {
     total = 0;
     Person.findPaged({}, null, {step: 10}, function(people, next) {
       total += people.length;
-      setTimeout(next, 10);
+      console.log(String(total), "people so far");
+      setTimeout(next, 50);
     }, function(err) {
       if(err) console.error(err);
-      console.log("finished paging");
       total.should.equal(toCreate);
       setTimeout(done, 1000);
       //done();
