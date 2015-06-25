@@ -7,8 +7,8 @@ var Person    = require("./model.js");
 
 mongoose.connect("mongodb://localhost/mongoose-paging-test", {});
 
-var toCreate   = 543;
-var pageLength = 10;
+var toCreate   = 1143;
+var pageLength = 100;
 
 describe("mongoose-paging", function() {
   this.timeout(toCreate * 10);
@@ -29,6 +29,9 @@ describe("mongoose-paging", function() {
     var total = 0;
     Person.findPaged({}, null, {step: pageLength}, function(people, next) {
 
+      // psuedo progress indicator
+      process.stdout.write(".");
+
       // there shouldn't be more results per page than the specified step
       should(people.length <= pageLength).be.true;
 
@@ -39,6 +42,7 @@ describe("mongoose-paging", function() {
       setTimeout(next, 50);
 
     }, function(err) {
+      process.stdout.write("\n");
       should.not.exist(err);
       total.should.equal(toCreate);
       done();
@@ -49,10 +53,14 @@ describe("mongoose-paging", function() {
     var callbackHasBeenRun = false;
     Person.findPaged({}, null, {step: pageLength}, function(people, next) {
 
+      // psuedo progress indicator
+      process.stdout.write(".");
+
       // simulate something async before continuing
       setTimeout(next, 50);
 
     }, function(err) {
+      process.stdout.write("\n");
       should.not.exist(err);
       should(callbackHasBeenRun).be.false;
       callbackHasBeenRun = true;
