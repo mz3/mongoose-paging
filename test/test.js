@@ -20,9 +20,9 @@ describe("mongoose-paging", function() {
 
   after(function(done) {
     done();
-    //mongoose.connection.db.dropCollection('people', function(err, result) {
-    //  done();
-    //});
+    mongoose.connection.db.dropCollection('people', function(err, result) {
+      done();
+    });
   });
 
   it("summing page totals should equal collection length", function(done) {
