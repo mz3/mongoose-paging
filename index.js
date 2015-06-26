@@ -14,8 +14,7 @@ function findPaged(query, fields, options, iterator, cb) {
   var Model  = this,
     step     = options.step,
     cursor   = null,
-    length   = null,
-    done     = false;
+    length   = null;
 
   promiseWhile(function() {
     return ( length===null || length > 0 );
@@ -31,7 +30,7 @@ function findPaged(query, fields, options, iterator, cb) {
             length  = items.length;
             if(length > 0) {
               cursor  = items[length - 1]._id;
-              iterator(items, resolve);
+              iterator(items, resolve, reject);
             } else {
               resolve();
             }
