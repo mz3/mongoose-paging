@@ -27,7 +27,7 @@ describe("mongoose-paging", function() {
 
   it("summing page totals should equal collection length", function(done) {
     var total = 0;
-    Person.findPaged({}, null, {step: pageLength}, function(people, onSuccess) {
+    Person.findPaged({}, null, {step: pageLength}, function(people, cb) {
 
       // psuedo progress indicator
       process.stdout.write(".");
@@ -39,7 +39,7 @@ describe("mongoose-paging", function() {
       total += people.length;
 
       // simulate something async before continuing
-      setTimeout(onSuccess, 50);
+      setTimeout(cb, 50);
 
     }, function(err) {
       process.stdout.write("\n");
@@ -51,13 +51,13 @@ describe("mongoose-paging", function() {
 
   it("shouldn't run the callback more than one time", function(done) {
     var callbackHasBeenRun = false;
-    Person.findPaged({}, null, {step: pageLength}, function(people, onSuccess) {
+    Person.findPaged({}, null, {step: pageLength}, function(people, cb) {
 
       // psuedo progress indicator
       process.stdout.write(".");
 
       // simulate something async before continuing
-      setTimeout(onSuccess, 50);
+      setTimeout(cb, 50);
 
     }, function(err) {
       process.stdout.write("\n");

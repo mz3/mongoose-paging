@@ -24,17 +24,17 @@ MyModel.findPaged(
   // number of results per page
   {step: 100},
   // iterator to call on each set of results
-  function(results, onSuccess, onFailure) {
+  function(results, cb) {
     console.log(results);
     // this is called repeatedly while until there are no more results.
     // results is an array of maximum length 100 containing the
     // results of your query
 
     // if all goes well
-    onSuccess();
+    cb();
 
     // if your async stuff has an error
-    onFailure(err);
+    cb(err);
   },
   // function to call when finished looping
   function(err) {

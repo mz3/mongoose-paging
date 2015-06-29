@@ -30,7 +30,13 @@ function findPaged(query, fields, options, iterator, cb) {
             length  = items.length;
             if(length > 0) {
               cursor  = items[length - 1]._id;
-              iterator(items, resolve, reject);
+              iterator(items, function(err) {
+                if(err) {
+                  reject(err);
+                } else {
+                  resolve();
+                }
+              });
             } else {
               resolve();
             }
