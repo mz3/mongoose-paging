@@ -30,9 +30,6 @@ describe("mongoose-paging", function() {
     var total = 0;
     return Person.findPaged({}, null, {step: pageLength}, function(people, cb) {
 
-      // psuedo progress indicator
-      process.stdout.write(".");
-
       // there shouldn't be more results per page than the specified step
       should(people.length <= pageLength).be.true;
 
@@ -50,9 +47,6 @@ describe("mongoose-paging", function() {
   it("shouldn't run the callback more than one time", function(done) {
     var callbackHasBeenRun = false;
     Person.findPaged({}, null, {step: pageLength}, function(people, cb) {
-
-      // psuedo progress indicator
-      process.stdout.write(".");
 
       // simulate something async before continuing
       setTimeout(cb, 50);
