@@ -16,7 +16,7 @@ function findPaged(query, fields, options, iterator, cb) {
     cursor   = null,
     length   = null;
 
-  promiseWhile(function() {
+  return promiseWhile(function() {
     return ( length===null || length > 0 );
   }, function() {
     return new Promise(function(resolve, reject) {
