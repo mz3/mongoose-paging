@@ -25,9 +25,10 @@ describe("mongoose-paging", function() {
     });
   });
 
-  it("summing page totals should equal collection length", function(done) {
+
+  it("summing page totals should equal collection length", function() {
     var total = 0;
-    Person.findPaged({}, null, {step: pageLength}, function(people, cb) {
+    return Person.findPaged({}, null, {step: pageLength}, function(people, cb) {
 
       // psuedo progress indicator
       process.stdout.write(".");
@@ -41,11 +42,8 @@ describe("mongoose-paging", function() {
       // simulate something async before continuing
       setTimeout(cb, 50);
 
-    }, function(err) {
-      process.stdout.write("\n");
-      should.not.exist(err);
+    }).then(function() {
       total.should.equal(toCreate);
-      done();
     });
   });
 
