@@ -43,4 +43,10 @@ MyModel.findPaged(
     // or if there is an error (then err is set)
   }
 );
+
+// you can also use the promise returned by `findPaged()` instead of
+// providing a callback function. it does not resolve with any value
+MyModel.findPaged( ... )
+  .then( ... )
+  .catch( ... )
 ```
