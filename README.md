@@ -35,6 +35,12 @@ MyModel.findPaged(
 
     // if your async stuff has an error
     cb(err);
+
+    // instead of calling the cb, you can also return a promise
+    return Promise.resolve(myResult)
+
+    // or a promise chain
+    return myFunction( ... ).then( ... );
   },
   // function to call when finished looping
   function(err) {

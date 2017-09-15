@@ -44,6 +44,25 @@ describe("mongoose-paging", function() {
     });
   });
 
+
+  it("supports returning a promise from the iterator", function() {
+    var total = 0;
+    return Person.findPaged({}, null, {step: pageLength}, function(people) {
+
+      // there shouldn't be more results per page than the specified step
+      should(people.length <= pageLength).be.true;
+
+      // add to total
+      total += people.length;
+
+      // return a promise
+      return Promise.resolve();
+
+    }).then(function() {
+      total.should.equal(toCreate);
+    });
+  });
+
   it("shouldn't run the callback more than one time", function(done) {
     var callbackHasBeenRun = false;
     Person.findPaged({}, null, {step: pageLength}, function(people, cb) {

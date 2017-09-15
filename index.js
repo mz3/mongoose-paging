@@ -30,13 +30,17 @@ function findPaged(query, fields, options, iterator, cb) {
             length  = items.length;
             if(length > 0) {
               cursor  = items[length - 1]._id;
-              iterator(items, function(err) {
+              var promise = iterator(items, function(err) {
                 if(err) {
                   reject(err);
                 } else {
                   resolve();
                 }
               });
+
+              if(promise && typeof promise.then === 'function')
+                promise.then(resolve).catch(reject);
+
             } else {
               resolve();
             }
